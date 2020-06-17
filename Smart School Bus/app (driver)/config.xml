@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.superbus.driver" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+    <name>Super Bus - Driver</name>
+    <description>
+        Super Bus - Driver
+    </description>
+    <author email="xxx@xxx.com">
+        XXX
+    </author>
+	<preference name="phonegap-version" value="cli-9.0.0" />
+	<preference name="android-minSdkVersion"      value="19" />
+	<icon src="icon.png" />
+    <content src="index.html" />
+    <plugin name="cordova-plugin-whitelist"/>
+    <plugin name="cordova-plugin-camera"              source="npm" />
+    <plugin name="cordova-plugin-media-capture"       source="npm" />
+    <plugin name="cordova-plugin-vibration"           source="npm" />
+	<plugin name="cordova-plugin-sms-receive"           source="npm" />
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+    <platform name="android">
+        <allow-intent href="market:*" />
+    </platform>
+    <platform name="ios">
+        <allow-intent href="itms:*" />
+        <allow-intent href="itms-apps:*" />
+    </platform>
+</widget>

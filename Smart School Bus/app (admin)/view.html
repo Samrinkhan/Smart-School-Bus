@@ -1,0 +1,73 @@
+
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=medium-dpi" />
+<style>
+body {
+margin: 0px;
+font-family: 'Lato', sans-serif;
+}
+
+#header {
+display: flex;
+justify-content: center;
+align-items: center;
+height: 7%;
+background: #49a1fa;
+color: white;
+}
+
+#map {
+width: 100%;
+height: 93%;
+}
+</style>
+</head>
+<body>
+<div id="header">
+<span style="font-size:21px;vertical-align: text-bottom;">LIVE TRACKING</span>
+</div>
+<div id="map"></div>
+<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-firestore.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+<script>
+function initMap() {
+var icon = 'https://firebasestorage.googleapis.com/v0/b/smart-school-bus-8226e.appspot.com/o/bus.png?alt=media&token=0d01b80c-3e21-41fd-96e6-2433b6823a31';
+var center = {lat: 19.02138, lng: 72.871};
+var map = new google.maps.Map(
+      document.getElementById('map'), {zoom: 16, center: center});	
+var marker = new google.maps.Marker({position: center, map: map, icon: icon});
+
+firebase.initializeApp({
+  apiKey: "AIzaSyA0wywe2fMxpBbBxKlChbVbUUfEE0VTo8w",
+  authDomain: "smart-school-bus-8226e.firebaseapp.com",
+  projectId: "smart-school-bus-8226e"
+});
+
+var db = firebase.firestore();
+
+db.collection("bus").doc(localStorage.getItem("ID"))
+	.onSnapshot(function(doc) {
+		var location = new google.maps.LatLng(doc.data()["location"]["latitude"], doc.data()["location"]["longitude"]);
+		marker.setPosition(location);
+		map.setCenter(location)
+		if(doc.data()["status"] == 1){Swal.fire({icon: 'error', text: 'Accident Detected!'});}
+});
+
+}
+
+function openNav() {
+  document.getElementById("myNav").style.width = "100%";
+}
+
+function closeNav() {
+  document.getElementById("myNav").style.width = "0%";
+}
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCK8iA0R_-wb5Lc18StEmCQUEzp7EESlsk&callback=initMap"></script>
+</body>
+
+</html>

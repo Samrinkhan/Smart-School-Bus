@@ -1,0 +1,122 @@
+
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=medium-dpi" />
+<link rel="stylesheet" href="simple-calendar.css">
+<style>
+.overlay {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0, 0.9);
+  overflow-x: hidden;
+  transition: 0.5s;
+}
+
+.overlay-content {
+  position: relative;
+  top: 25%;
+  width: 100%;
+  text-align: center;
+  margin-top: 30px;
+}
+
+.overlay a {
+  padding: 8px;
+  text-decoration: none;
+  font-size: 36px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.overlay .closebtn {
+  position: absolute;
+  top: 20px;
+  right: 45px;
+  font-size: 60px;
+}
+
+body {
+margin: 0px;
+font-family: 'Lato', sans-serif;
+}
+
+#header {
+width: 100%;
+height: 7%;
+background: #49a1fa;
+color: white;
+}
+
+#container {
+padding-left: 20px;
+padding-top: 20px;
+}
+
+.btn {
+display:none!important;
+}
+
+.has-event {
+color: white;
+background: green;
+padding: 2px 5px 2px 5px;
+}
+</style>
+</head>
+<body>
+<div id="myNav" class="overlay">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <div class="overlay-content">
+    <a href="./view.html">LIVE TRACKING</a>
+    <a href="#">ATTENDANCE</a>
+  </div>
+</div>
+<div id="header">
+<span style="font-size:30px;cursor:pointer;padding:10px;" onclick="openNav()">&#9776;</span>
+<span style="font-size:21px;vertical-align: text-bottom;">ATTENDANCE</span>
+</div>
+<div id="container"></div>
+<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-firestore.js"></script>
+<script src="simple-calendar.js"></script>
+<script>
+firebase.initializeApp({
+  apiKey: "AIzaSyA0wywe2fMxpBbBxKlChbVbUUfEE0VTo8w",
+  authDomain: "smart-school-bus-8226e.firebaseapp.com",
+  projectId: "smart-school-bus-8226e"
+});
+
+var db = firebase.firestore();
+
+db.collection("students").doc(localStorage.getItem("ID")).get().then(function(doc) {
+	var events = [];
+		for (event of doc.data()["attendance"]){
+			events.push({startDate: new Date(event["seconds"]*1000)});
+		}
+	   $("#container").simpleCalendar({
+		  displayEvent: true, 
+		  events: events,
+		  months: ['january','february','march','april','may','june','july','august','september','october','november','december'],
+		  days: ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
+	   });
+});
+
+function openNav() {
+  document.getElementById("myNav").style.width = "100%";
+}
+
+function closeNav() {
+  document.getElementById("myNav").style.width = "0%";
+}
+</script>
+</body>
+
+</html>
